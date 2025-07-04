@@ -24,3 +24,221 @@ model UserSession {
   @@index([expiresAt])
   @@map("user_sessions")
 }
+
+// === OZON TABLES ===
+
+model OzonOrder {
+  id               Int       @id @default(autoincrement())
+  ozOrderNumber    String    @map("oz_order_number") @db.VarChar(255)
+  ozShipmentNumber String?   @map("oz_shipment_number") @db.VarChar(255)
+  ozAcceptedDate   DateTime? @map("oz_accepted_date") @db.Date
+  orderStatus      String?   @map("order_status") @db.VarChar(255)
+  ozSku            BigInt?   @map("oz_sku")
+  ozVendorCode     String?   @map("oz_vendor_code") @db.VarChar(255)
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([ozOrderNumber])
+  @@index([ozSku])
+  @@index([ozVendorCode])
+  @@index([ozAcceptedDate])
+  @@map("oz_orders")
+}
+
+model OzonProduct {
+  id               Int     @id @default(autoincrement())
+  ozVendorCode     String  @map("oz_vendor_code") @db.VarChar(255)
+  ozProductId      BigInt? @map("oz_product_id")
+  ozSku            BigInt? @map("oz_sku")
+  ozBrand          String? @map("oz_brand") @db.VarChar(255)
+  ozProductStatus  String? @map("oz_product_status") @db.VarChar(255)
+  ozProductVisible String? @map("oz_product_visible") @db.VarChar(255)
+  ozHidingReasons  String? @map("oz_hiding_reasons") @db.Text
+  ozFboStock       Int?    @map("oz_fbo_stock")
+  ozActualPrice    Float?  @map("oz_actual_price")
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([ozVendorCode])
+  @@index([ozProductId])
+  @@index([ozSku])
+  @@index([ozBrand])
+  @@map("oz_products")
+}
+
+model OzonBarcode {
+  id            Int      @id @default(autoincrement())
+  ozVendorCode  String   @map("oz_vendor_code") @db.VarChar(255)
+  ozProductId   BigInt?  @map("oz_product_id")
+  ozBarcode     String   @map("oz_barcode") @db.VarChar(255)
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([ozVendorCode])
+  @@index([ozProductId])
+  @@index([ozBarcode])
+  @@map("oz_barcodes")
+}
+
+// === WILDBERRIES TABLES ===
+
+model WildberriesProduct {
+  id         Int      @id @default(autoincrement())
+  wbSku      BigInt   @map("wb_sku")
+  wbCategory String?  @map("wb_category") @db.VarChar(255)
+  wbBrand    String?  @map("wb_brand") @db.VarChar(255)
+  wbBarcodes String?  @map("wb_barcodes") @db.Text
+  wbSize     String?  @map("wb_size") @db.VarChar(255)
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([wbSku])
+  @@index([wbBrand])
+  @@index([wbCategory])
+  @@map("wb_products")
+}
+
+model WildberriesPrice {
+  id         Int      @id @default(autoincrement())
+  wbSku      BigInt   @map("wb_sku")
+  wbFboStock Int?     @map("wb_fbo_stock")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([wbSku])
+  @@map("wb_prices")
+}
+
+// === REPORT UPLOADS TRACKING ===
+
+model OzCategoryProduct {
+  id               Int      @id @default(autoincrement())
+  
+  // Basic Product Information
+  ozVendorCode     String   @map("oz_vendor_code") @db.VarChar(255)
+  productName      String?  @map("product_name") @db.VarChar(500)
+  ozActualPrice    Decimal? @map("oz_actual_price") @db.Decimal(10,2)
+  ozPriceBeforeDiscount Decimal? @map("oz_price_before_discount") @db.Decimal(10,2)
+  vatPercent       Int?     @map("vat_percent") @db.SmallInt
+  installment      String?  @map("installment") @db.VarChar(50)
+  reviewPoints     Int?     @map("review_points") @db.SmallInt
+  ozSku            BigInt?  @map("oz_sku")
+  barcode          String?  @map("barcode") @db.VarChar(100)
+  
+  // Package Information
+  packageWeightG   Int?     @map("package_weight_g")
+  packageWidthMm   Int?     @map("package_width_mm")
+  packageHeightMm  Int?     @map("package_height_mm")
+  packageLengthMm  Int?     @map("package_length_mm")
+  packageCount     Int?     @map("package_count")
+  shoesInPackCount Int?     @map("shoes_in_pack_count")
+  
+  // Media Information
+  mainPhotoUrl     String?  @map("main_photo_url") @db.Text
+  additionalPhotosUrls String? @map("additional_photos_urls") @db.Text
+  photo360Urls     String?  @map("photo_360_urls") @db.Text
+  photoArticle     String?  @map("photo_article") @db.VarChar(100)
+  
+  // Brand and Product Classification
+  ozBrand          String?  @map("oz_brand") @db.VarChar(100)
+  mergeOnCard      String?  @map("merge_on_card") @db.VarChar(100)
+  type             String?  @map("type") @db.VarChar(100)
+  gender           String?  @map("gender") @db.VarChar(20)
+  season           String?  @map("season") @db.VarChar(50)
+  collection       String?  @map("collection") @db.VarChar(100)
+  style            String?  @map("style") @db.VarChar(100)
+  groupName        String?  @map("group_name") @db.VarChar(100)
+  
+  // Size and Color Information
+  color            String?  @map("color") @db.VarChar(100)
+  russianSize      String?  @map("russian_size") @db.VarChar(20)
+  colorName        String?  @map("color_name") @db.VarChar(100)
+  manufacturerSize String?  @map("manufacturer_size") @db.VarChar(20)
+  
+  // Content and Marketing
+  hashtags         String?  @map("hashtags") @db.Text
+  annotation       String?  @map("annotation") @db.Text
+  richContentJson  Json?    @map("rich_content_json")
+  keywords         String?  @map("keywords") @db.Text
+  is18plus         Boolean? @map("is_18plus")
+  
+  // Material Information
+  material         String?  @map("material") @db.VarChar(200)
+  upperMaterial    String?  @map("upper_material") @db.VarChar(200)
+  liningMaterial   String?  @map("lining_material") @db.VarChar(200)
+  insoleMaterial   String?  @map("insole_material") @db.VarChar(200)
+  outsoleMaterial  String?  @map("outsole_material") @db.VarChar(200)
+  
+  // Physical Characteristics
+  temperatureMode  String?  @map("temperature_mode") @db.VarChar(100)
+  footLengthCm     Decimal? @map("foot_length_cm") @db.Decimal(4,1)
+  insoleLengthCm   Decimal? @map("insole_length_cm") @db.Decimal(4,1)
+  fullness         String?  @map("fullness") @db.VarChar(10)
+  heelHeightCm     Decimal? @map("heel_height_cm") @db.Decimal(4,1)
+  soleHeightCm     Decimal? @map("sole_height_cm") @db.Decimal(4,1)
+  bootlegHeightCm  Decimal? @map("bootleg_height_cm") @db.Decimal(4,1)
+  platformHeightCm Decimal? @map("platform_height_cm") @db.Decimal(4,1)
+  
+  // Additional Product Details
+  sizeInfo         String?  @map("size_info") @db.Text
+  fastenerType     String?  @map("fastener_type") @db.VarChar(100)
+  heelType         String?  @map("heel_type") @db.VarChar(100)
+  modelFeatures    String?  @map("model_features") @db.Text
+  decorativeElements String? @map("decorative_elements") @db.Text
+  fit              String?  @map("fit") @db.VarChar(50)
+  sizeTableJson    Json?    @map("size_table_json")
+  
+  // Product Specifications
+  warrantyPeriod   String?  @map("warranty_period") @db.VarChar(50)
+  sportPurpose     String?  @map("sport_purpose") @db.VarChar(100)
+  orthopedic       Boolean? @map("orthopedic")
+  waterproof       Boolean? @map("waterproof")
+  countryOfOrigin  String?  @map("country_of_origin") @db.VarChar(100)
+  brandCountry     String?  @map("brand_country") @db.VarChar(100)
+  pronationType    String?  @map("pronation_type") @db.VarChar(100)
+  membraneMaterialType String? @map("membrane_material_type") @db.VarChar(100)
+  targetAudience   String?  @map("target_audience") @db.VarChar(100)
+  tnvedCodes       String?  @map("tnved_codes") @db.VarChar(200)
+  
+  // Model Types
+  bootsModel       String?  @map("boots_model") @db.VarChar(100)
+  shoesModel       String?  @map("shoes_model") @db.VarChar(100)
+  balletFlatsModel String?  @map("ballet_flats_model") @db.VarChar(100)
+  
+  // Video Data (from "Озон.Видео" sheet)
+  videoName        String?  @map("video_name") @db.VarChar(255)
+  videoLink        String?  @map("video_link") @db.Text
+  productsOnVideo  String?  @map("products_on_video") @db.Text
+  
+  // Video Cover Data (from "Озон.Видеообложка" sheet)
+  videoCoverLink   String?  @map("video_cover_link") @db.Text
+  
+  // Import Metadata
+  errorMessage     String?  @map("error_message") @db.Text
+  warningMessage   String?  @map("warning_message") @db.Text
+  
+  // Timestamps
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+  
+  // Indexes
+  @@unique([ozVendorCode])
+  @@index([ozVendorCode])
+  @@index([ozBrand])
+  @@index([type])
+  @@index([createdAt])
+  @@map("oz_category_products")
+}
+
+model ReportUpload {
+  id           Int      @id @default(autoincrement())
+  reportType   String   @map("report_type") @db.VarChar(50)
+  fileName     String   @map("file_name") @db.VarChar(255)
+  fileSize     Int      @map("file_size")
+  recordsCount Int?     @map("records_count")
+  status       String   @map("status") @db.VarChar(50) // 'processing', 'completed', 'failed'
+  errorMessage String?  @map("error_message") @db.Text
+  uploadedBy   String?  @map("uploaded_by") @db.VarChar(255)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+  completedAt  DateTime? @map("completed_at") @db.Timestamptz
+
+  @@index([reportType])
+  @@index([status])
+  @@index([createdAt])
+  @@map("report_uploads")
+}

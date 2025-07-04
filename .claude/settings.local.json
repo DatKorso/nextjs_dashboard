@@ -15,13 +15,20 @@
       "Bash(cat:*)",
       "Bash(export DATABASE_URL=postgresql://korso:147258369@localhost:5432/dashboard_db)",
       "Bash(DATABASE_URL=postgresql://korso:147258369@localhost:5432/dashboard_db npx prisma migrate dev --name init)",
-      "Bash(DATABASE_URL=postgresql://korso:147258369@localhost:5432/dashboard_db npx prisma migrate reset --force)"
+      "Bash(DATABASE_URL=postgresql://korso:147258369@localhost:5432/dashboard_db npx prisma migrate reset --force)",
+      "Bash(npx tsc:*)",
+      "Bash(timeout 10 npm run dev)",
+      "Bash(true)",
+      "Bash(curl:*)",
+      "mcp__Excel__excel_read_sheet",
+      "mcp__Excel__excel_describe_sheets",
+      "Bash(node:*)"
     ],
     "deny": []
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "context7",
-    "mcp-server-motherduck",
     "postgres",
     "sequential-thinking",
     "Excel",

@@ -47,3 +47,6 @@ logs/
 
 # mcp servers
 .mcp.json
+
+# excel reports
+mp_reports/
