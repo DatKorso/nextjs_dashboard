@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: system-ui, sans-serif;
+  }
+  
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-md font-medium transition-colors;
+  }
+  
+  .btn-primary {
+    @apply bg-primary-600 text-white hover:bg-primary-700;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-900 hover:bg-gray-300;
+  }
+  
+  .input {
+    @apply px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-md p-6;
+  }
+  
+  /* Sidebar styles */
+  .sidebar-nav-item {
+    @apply flex items-center px-4 py-2 text-sm font-medium rounded-md transition-all duration-200;
+  }
+  
+  .sidebar-nav-item:hover {
+    @apply bg-gray-50 text-gray-900 transform translate-x-1;
+  }
+  
+  .sidebar-nav-item.active {
+    @apply bg-primary-100 text-primary-900 border-r-2 border-primary-500;
+  }
+  
+  .sidebar-nav-item.active:hover {
+    @apply bg-primary-200 transform translate-x-0;
+  }
+  
+  /* Responsive sidebar */
+  @media (max-width: 1024px) {
+    .sidebar-mobile-overlay {
+      @apply fixed inset-0 bg-gray-600 bg-opacity-75 z-20;
+    }
+    
+    .sidebar-mobile {
+      @apply fixed inset-y-0 left-0 z-30 w-64 bg-white shadow-xl transform transition-transform duration-300 ease-in-out;
+    }
+    
+    .sidebar-mobile.closed {
+      @apply -translate-x-full;
+    }
+  }
+  
+  /* Status indicators */
+  .status-connected {
+    @apply bg-green-500;
+    animation: pulse-green 2s infinite;
+  }
+  
+  .status-disconnected {
+    @apply bg-red-500;
+    animation: pulse-red 2s infinite;
+  }
+  
+  .status-checking {
+    @apply bg-yellow-500;
+    animation: pulse-yellow 1s infinite;
+  }
+  
+  @keyframes pulse-green {
+    0%, 100% { 
+      opacity: 1; 
+    }
+    50% { 
+      opacity: 0.7; 
+    }
+  }
+  
+  @keyframes pulse-red {
+    0%, 100% { 
+      opacity: 1; 
+    }
+    50% { 
+      opacity: 0.7; 
+    }
+  }
+  
+  @keyframes pulse-yellow {
+    0%, 100% { 
+      opacity: 1; 
+    }
+    50% { 
+      opacity: 0.5; 
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(chmod:*)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "Bash(mkdir:*)",
+      "Bash(npm install:*)",
+      "Bash(npx prisma:*)",
+      "Bash(DATABASE_URL=\"postgresql://korso:147258369@localhost:5432/dashboard_db\" npx prisma db push --skip-generate)",
+      "Bash(npm run lint)",
+      "Bash(npm run build:*)",
+      "Bash(rm:*)",
+      "Bash(cat:*)",
+      "Bash(export DATABASE_URL=postgresql://korso:147258369@localhost:5432/dashboard_db)",
+      "Bash(DATABASE_URL=postgresql://korso:147258369@localhost:5432/dashboard_db npx prisma migrate dev --name init)",
+      "Bash(DATABASE_URL=postgresql://korso:147258369@localhost:5432/dashboard_db npx prisma migrate reset --force)"
+    ],
+    "deny": []
+  },
+  "enabledMcpjsonServers": [
+    "context7",
+    "mcp-server-motherduck",
+    "postgres",
+    "sequential-thinking",
+    "Excel",
+    "GitHub"
+  ]
+}
